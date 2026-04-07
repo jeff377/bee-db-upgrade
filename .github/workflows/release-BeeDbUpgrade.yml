@@ -5,6 +5,9 @@ on:
     tags:
       - 'BeeDbUpgrade-v*'
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: windows-latest
