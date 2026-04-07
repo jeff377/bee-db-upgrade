@@ -22,19 +22,17 @@ jobs:
         dotnet-version: 10.0.x
 
     - name: Publish BeeDbUpgrade
+      working-directory: src\BeeDbUpgrade
       run: |
-        dotnet publish src/BeeDbUpgrade/BeeDbUpgrade.csproj `
+        dotnet publish BeeDbUpgrade.csproj `
           -c Release `
-          -r win-x64 `
-          --self-contained false `
-          /p:PublishSingleFile=true `
-          /p:RestoreLockedMode=false
+          /p:PublishProfile=FolderProfile
 
     - name: Create zip package
       run: |
         Compress-Archive `
-          -Path src/BeeDbUpgrade/bin/Release/net10.0-windows/win-x64/publish/* `
-          -DestinationPath ${{ github.ref_name }}.zip
+          -Path "src\BeeDbUpgrade\bin\Release\net10.0-windows\publish\win-x64\*" `
+          -DestinationPath "${{ github.ref_name }}.zip"
 
     - name: Upload to GitHub Releases
       uses: softprops/action-gh-release@v2
